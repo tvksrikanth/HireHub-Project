@@ -1,0 +1,48 @@
+{% extends "jobmanager/nav-bar.html" %}
+{% block title %}
+<title>Posted Jobs List</title>
+{% endblock%}
+{% block content %}
+<div>
+      <h3 class="d-inline">Jobs Posted by {{author.user.first_name}}</h3>
+      <a type="button" class="btn btn-primary m-2" href="{%url 'jobmanager:job-post' id=author.id%}">Create</a>
+      <table class="table position-absolute">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Company</th>
+            <th scope="col">Location</th>
+            <th scope="col">View</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for job in posts%}
+          <tr>
+            <th scope="row">{{job.title}}</th>
+            <td>{{job.author.company}}</td>
+            <td>{{job.location}}</td>
+            <td>
+              <a
+                style="text-decoration: none;"
+                href="{% url 'jobmanager:applications-list' id=job.id %}"
+                target="_blank"
+                <button
+                  type="button"
+                  class="btn btn-info"
+                >
+                  View
+                </button>
+              </a>
+              <a href="{% url 'jobmanager:delete-job-post' id=author.id jobpost_id=job.id %}">
+                <button type="button" class="btn btn-danger">Delete</button>
+            </a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% for message in messages %}
+      <p class="text-success link-underline-success">{{message}}</p>
+    {% endfor %}
+{% endblock %}
